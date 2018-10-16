@@ -21,7 +21,7 @@ const double DEFAULT_POINTS_INTERVAL_RELATIONS = 10; // Consistent with DEFAULT_
 const QString DEFAULT_X_LABEL ("");
 const ExportPointsIntervalUnits DEFAULT_POINTS_INTERVAL_UNITS_FUNCTIONS = EXPORT_POINTS_INTERVAL_UNITS_SCREEN; // Consistent with DEFAULT_POINTS_INTERVAL_FUNCTIONS
 const ExportPointsIntervalUnits DEFAULT_POINTS_INTERVAL_UNITS_RELATIONS = EXPORT_POINTS_INTERVAL_UNITS_SCREEN; // Consistent with DEFAULT_POINTS_INTERVAL_RELATIONS
-const bool DEFAULT_EXPORT_DELIMITER_OVERRIDE = false; // Target beginner users who expect simplest behavior. Issue #169
+const bool DEFAULT_EXPORT_DELIMITER_OVERRIDE = true;
 
 DocumentModelExportFormat::DocumentModelExportFormat()
 {
@@ -31,13 +31,13 @@ DocumentModelExportFormat::DocumentModelExportFormat()
   m_curveNamesNotExported = settings.value (SETTINGS_EXPORT_CURVE_NAMES_NOT_EXPORTED,
                                             QVariant (DEFAULT_CURVE_NAMES_NOT_EXPORTED)).toStringList();
   m_delimiter = (ExportDelimiter) settings.value (SETTINGS_EXPORT_DELIMITER,
-                                                  QVariant (EXPORT_DELIMITER_COMMA)).toInt();
+                                                  QVariant (EXPORT_DELIMITER_SPACE)).toInt();
   m_overrideCsvTsv = settings.value (SETTINGS_EXPORT_DELIMITER_OVERRIDE_CSV_TSV,
                                      QVariant (DEFAULT_EXPORT_DELIMITER_OVERRIDE)).toBool();
   m_header = (ExportHeader) settings.value (SETTINGS_EXPORT_HEADER,
-                                            QVariant (EXPORT_HEADER_SIMPLE)).toInt();
+                                            QVariant (EXPORT_HEADER_GNUPLOT)).toInt();
   m_layoutFunctions = (ExportLayoutFunctions) settings.value (SETTINGS_EXPORT_LAYOUT_FUNCTIONS,
-                                                              QVariant (EXPORT_LAYOUT_ALL_PER_LINE)).toInt();
+                                                              QVariant (EXPORT_LAYOUT_ONE_PER_LINE)).toInt();
   m_pointsIntervalFunctions = settings.value (SETTINGS_EXPORT_POINTS_INTERVAL_FUNCTIONS,
                                               QVariant (DEFAULT_POINTS_INTERVAL_FUNCTIONS)).toDouble();
   m_pointsIntervalRelations = settings.value (SETTINGS_EXPORT_POINTS_INTERVAL_RELATIONS,
@@ -47,9 +47,9 @@ DocumentModelExportFormat::DocumentModelExportFormat()
   m_pointsIntervalUnitsRelations = (ExportPointsIntervalUnits) settings.value (SETTINGS_EXPORT_POINTS_INTERVAL_UNITS_RELATIONS,
                                                                                QVariant (DEFAULT_POINTS_INTERVAL_UNITS_RELATIONS)).toInt();
   m_pointsSelectionFunctions = (ExportPointsSelectionFunctions) settings.value (SETTINGS_EXPORT_POINTS_SELECTION_FUNCTIONS,
-                                                                                QVariant (EXPORT_POINTS_SELECTION_FUNCTIONS_INTERPOLATE_ALL_CURVES)).toInt();
+                                                                                QVariant (EXPORT_POINTS_SELECTION_FUNCTIONS_RAW)).toInt();
   m_pointsSelectionRelations = (ExportPointsSelectionRelations) settings.value (SETTINGS_EXPORT_POINTS_SELECTION_RELATIONS,
-                                                                                QVariant (EXPORT_POINTS_SELECTION_RELATIONS_INTERPOLATE)).toInt();
+                                                                                QVariant (EXPORT_POINTS_SELECTION_RELATIONS_RAW)).toInt();
   m_xLabel = settings.value (SETTINGS_EXPORT_X_LABEL,
                              QVariant (DEFAULT_X_LABEL)).toString();
 }
