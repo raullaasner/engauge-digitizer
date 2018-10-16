@@ -185,6 +185,7 @@ void CreateActions::createEdit (MainWindow &mw)
   connect (mw.m_actionEditDelete, SIGNAL (triggered ()), &mw, SLOT (slotEditDelete ()));
 
   mw.m_actionEditPasteAsNew = new QAction (tr ("Paste As New"), &mw);
+  mw.m_actionEditPasteAsNew->setShortcut(tr("Ctrl+N"));
   mw.m_actionEditPasteAsNew->setStatusTip (tr ("Pastes an image from the clipboard."));
   mw.m_actionEditPasteAsNew->setWhatsThis (tr ("Paste as New\n\n"
                                                "Creates a new document by pasting an image from the clipboard."));
