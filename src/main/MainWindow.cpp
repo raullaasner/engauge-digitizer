@@ -987,7 +987,7 @@ bool MainWindow::loadImageNewDocument (const QString &fileName,
                                              tr ("File imported"),
                                              importType);
 
-  if (accepted) {
+  if (false) {
 
     // Show the wizard if user selected it and we are not running a script
     if (m_actionHelpChecklistGuideWizard->isChecked () &&
