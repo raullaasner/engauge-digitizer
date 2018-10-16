@@ -2284,6 +2284,7 @@ void MainWindow::slotFileExport ()
                                 .arg (directoryPersist.getDirectoryExportSave().path ())
                                 .arg (m_currentFile)
                                 .arg (exportStrategy.fileExtensionCsv ());
+      defaultFileName = QString("/home/raul/Projects/Springer/engauge.out");
       QFileDialog dlg;
       QString filterCsv = exportStrategy.filterCsv ();
 
