@@ -130,6 +130,8 @@ const char *ENGAUGE_FILENAME_DESCRIPTION = "Engauge Document";
 const QString ENGAUGE_FILENAME_EXTENSION ("dig");
 const int REGRESSION_INTERVAL = 400; // Milliseconds
 const unsigned int MAX_RECENT_FILE_LIST_SIZE = 8;
+const double RAPID_CAPTURE_LEVEL_TO_DBL[10] {1.0,
+        4.0, 9.0, 16.0, 25.0, 36.0, 49.0, 64.0, 81.0, 100.0};
 
 MainWindow::MainWindow(const QString &errorReportFile,
                        const QString &fileCmdScriptFile,
@@ -165,7 +167,8 @@ MainWindow::MainWindow(const QString &errorReportFile,
   m_fittingCurve (0),
   m_isExportOnly (isExportOnly),
   m_isExtractImageOnly (isExtractImageOnly),
-  m_extractImageOnlyExtension (extractImageOnlyExtension)
+  m_extractImageOnlyExtension (extractImageOnlyExtension),
+  m_min_distance_for_rapid_capture (RAPID_CAPTURE_LEVEL_TO_DBL[m_rapid_capture_level-1])
 {
   LOG4CPP_INFO_S ((*mainCat)) << "MainWindow::MainWindow"
                               << " curDir=" << QDir::currentPath().toLatin1().data();
@@ -3279,6 +3282,8 @@ void MainWindow::updateControls ()
   m_actionViewBackground->setEnabled (!m_currentFile.isEmpty());
   m_actionViewChecklistGuide->setEnabled (!m_dockChecklistGuide->browserIsEmpty());
   m_actionViewDigitize->setEnabled (!m_currentFile.isEmpty ());
+  rapidCaptureInc_button->setEnabled (!m_currentFile.isEmpty ());
+  rapidCaptureDec_button->setEnabled (!m_currentFile.isEmpty ());
   m_actionViewSettingsViews->setEnabled (!m_currentFile.isEmpty ());
 
   m_actionSettingsCoords->setEnabled (!m_currentFile.isEmpty ());
@@ -3779,4 +3784,27 @@ void MainWindow::writeCheckpointToLogFile ()
                                  << checkpointScene.toLatin1().data()
                                  << "-----------------SCENE CHECKPOINT END------------" ;
   }
+}
+
+double MainWindow::getMinDistanceForRapidCapture() const
+{
+    return m_min_distance_for_rapid_capture;
+}
+
+void MainWindow::slotRapidCaptureInc()
+{
+    if (m_rapid_capture_level < 10) {
+        m_min_distance_for_rapid_capture =
+            RAPID_CAPTURE_LEVEL_TO_DBL[m_rapid_capture_level++];
+        rapidCaptureRate_label->setText(QString::number(m_rapid_capture_level));
+    }
+}
+
+void MainWindow::slotRapidCaptureDec()
+{
+    if (m_rapid_capture_level > 1) {
+        m_min_distance_for_rapid_capture =
+            RAPID_CAPTURE_LEVEL_TO_DBL[--m_rapid_capture_level-1];
+        rapidCaptureRate_label->setText(QString::number(m_rapid_capture_level));
+    }
 }

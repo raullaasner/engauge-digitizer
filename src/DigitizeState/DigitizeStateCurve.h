@@ -46,6 +46,13 @@ public:
 
 private:
   DigitizeStateCurve();
+
+  // Whether the left button is currently pressed
+  bool mousePressed {false};
+  // Whether handleMouseMove was just called
+  bool handleMouseMoveCalled {false};
+  // handleMouseMove sets this to posScreen
+  QPointF previousPoint {-1.0,-1.0};
 };
 
 #endif // DIGITIZE_STATE_CURVE_H

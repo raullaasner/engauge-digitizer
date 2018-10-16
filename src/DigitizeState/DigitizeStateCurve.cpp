@@ -91,16 +91,45 @@ void DigitizeStateCurve::handleKeyPress (CmdMediator * /* cmdMediator */,
                               << " key=" << QKeySequence (key).toString ().toLatin1 ().data ();
 }
 
-void DigitizeStateCurve::handleMouseMove (CmdMediator * /* cmdMediator */,
-                                          QPointF /* posScreen */)
+void DigitizeStateCurve::handleMouseMove (CmdMediator * cmdMediator,
+                                          QPointF posScreen)
 {
-//  LOG4CPP_DEBUG_S ((*mainCat)) << "DigitizeStateCurve::handleMouseMove";
+    LOG4CPP_DEBUG_S ((*mainCat)) << "DigitizeStateCurve::handleMouseMove";
+    if (mousePressed) {
+        double X = previousPoint.x()-posScreen.x();
+        double Y = previousPoint.y()-posScreen.y();
+        if (X*X + Y*Y > context().mainWindow().getMinDistanceForRapidCapture()) {
+            // If handleMouseMoveCalled was just called, then ignore
+            // the second call to avoid an infinite loop.
+            if (!handleMouseMoveCalled) {
+                handleMouseMoveCalled = true;
+                previousPoint = posScreen;
+                OrdinalGenerator ordinalGenerator;
+                Document &document = cmdMediator->document();
+                const Transformation &transformation = context().mainWindow().transformation();
+                QUndoCommand *cmd = new CmdAddPointGraph
+                    (context().mainWindow(),
+                     document,
+                     context().mainWindow().selectedGraphCurve(),
+                     posScreen,
+                     ordinalGenerator.generateCurvePointOrdinal(document,
+                                                                transformation,
+                                                                posScreen,
+                                                                activeCurve()));
+                context().appendNewCmd(cmdMediator,
+                                       cmd);
+            } else {
+                handleMouseMoveCalled = false;
+            }
+        }
+    }
 }
 
 void DigitizeStateCurve::handleMousePress (CmdMediator * /* cmdMediator */,
                                            QPointF /* posScreen */)
 {
   LOG4CPP_INFO_S ((*mainCat)) << "DigitizeStateCurve::handleMousePress";
+    mousePressed = true;
 }
 
 void DigitizeStateCurve::handleMouseRelease (CmdMediator *cmdMediator,
@@ -120,6 +149,7 @@ void DigitizeStateCurve::handleMouseRelease (CmdMediator *cmdMediator,
                                                                                        transformation,
                                                                                        posScreen,
                                                                                        activeCurve ()));
+  mousePressed = false;
   context().appendNewCmd(cmdMediator,
                          cmd);
 }

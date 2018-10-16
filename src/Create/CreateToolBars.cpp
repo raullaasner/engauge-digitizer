@@ -106,6 +106,24 @@ void CreateToolBars::create (MainWindow &mw)
   mw.m_toolSettingsViews->addWidget (mw.m_viewSegmentFilter);
   mw.addToolBar (mw.m_toolSettingsViews);
 
+  // Create the rapid capture buttons
+  mw.rapidCaptureInc_button = new QPushButton(&mw);
+  mw.rapidCaptureInc_button->setText(tr("+"));
+  mw.rapidCaptureInc_button->setFixedSize(QSize(30,30));
+  connect(mw.rapidCaptureInc_button, SIGNAL (pressed()), &mw, SLOT(slotRapidCaptureInc()));
+  mw.rapidCaptureDec_button = new QPushButton(&mw);
+  mw.rapidCaptureDec_button->setText(tr("-"));
+  mw.rapidCaptureDec_button->setFixedSize(QSize(30,30));
+  mw.rapidCaptureRate_label = new QLabel(QString::number(mw.m_rapid_capture_level));
+  connect(mw.rapidCaptureDec_button, SIGNAL (pressed()), &mw, SLOT(slotRapidCaptureDec()));
+
+  // Rapid capture toolbar
+  mw.m_toolRapidCapture = new QToolBar (tr ("Rapid capture"), &mw);
+  mw.m_toolRapidCapture->addWidget(mw.rapidCaptureInc_button);
+  mw.m_toolRapidCapture->addWidget(mw.rapidCaptureDec_button);
+  mw.m_toolRapidCapture->addWidget(mw.rapidCaptureRate_label);
+  mw.addToolBar(mw.m_toolRapidCapture);
+
   // Coordinate system toolbar
   mw.m_cmbCoordSystem = new QComboBox;
   mw.m_cmbCoordSystem->setEnabled (false);

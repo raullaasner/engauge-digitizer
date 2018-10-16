@@ -22,6 +22,7 @@
 #include "ZoomControl.h"
 #include "ZoomFactor.h"
 #include "ZoomFactorInitial.h"
+#include <QLabel>
 
 class BackgroundStateContext;
 class ChecklistGuide;
@@ -265,6 +266,8 @@ public:
   /// View for the QImage and QGraphicsItems, without const.
   const GraphicsView &view () const;
 
+  double getMinDistanceForRapidCapture() const;
+
 private slots:
   void slotBtnPrintAll();
   void slotBtnShowAllPressed();
@@ -354,6 +357,8 @@ private slots:
   void slotViewZoomInFromWheelEvent ();
   void slotViewZoomOut ();
   void slotViewZoomOutFromWheelEvent ();
+  void slotRapidCaptureInc ();
+  void slotRapidCaptureDec ();
 
 signals:
   /// Send zoom selection, picked from menu or keystroke, to StatusBar.
@@ -599,6 +604,11 @@ private:
   QPushButton *m_btnShowAll;
   QToolBar *m_toolCoordSystem;
 
+  QPushButton *rapidCaptureInc_button;
+  QPushButton *rapidCaptureDec_button;
+  QLabel *rapidCaptureRate_label;
+  QToolBar *m_toolRapidCapture;
+
 #if !defined(OSX_DEBUG) && !defined(OSX_RELEASE)  
   HelpWindow *m_helpWindow;
 #endif
@@ -676,6 +686,15 @@ private:
   // Extract the image from the single dig file that was loaded in the command line, as enforced by parseCmdLine
   bool m_isExtractImageOnly;
   QString m_extractImageOnlyExtension;
+
+  // Integer corresponding to each value of
+  // m_min_distance_for_rapid_capture. Currently, the relationship is
+  // trivial. For example, level 5 corresponds to a minimum distance
+  // of 5.0 pixels between the points.
+  int m_rapid_capture_level {3};
+  // Square of the minimum distance between points that is enforced
+  // during rapid capture
+  double m_min_distance_for_rapid_capture;
 };
 
 #endif // MAIN_WINDOW_H
