@@ -332,6 +332,7 @@ void CreateActions::createSettings (MainWindow &mw)
   connect (mw.m_actionSettingsCoords, SIGNAL (triggered ()), &mw, SLOT (slotSettingsCoords ()));
 
   mw.m_actionSettingsCurveAddRemove = new QAction (tr ("Curve List..."), &mw);
+  mw.m_actionSettingsCurveAddRemove->setShortcut (tr ("Ctrl+A"));
   mw.m_actionSettingsCurveAddRemove->setStatusTip (tr ("Edit Curve List settings."));
   mw.m_actionSettingsCurveAddRemove->setWhatsThis (tr ("Curve List\n\n"
                                                        "Curve list settings add, rename and/or remove curves in the current document"));
