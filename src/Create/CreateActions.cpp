@@ -136,6 +136,11 @@ void CreateActions::createDigitize (MainWindow &mw)
   mw.m_groupDigitize->addAction (mw.m_actionDigitizePointMatch);
   mw.m_groupDigitize->addAction (mw.m_actionDigitizeColorPicker);
   mw.m_groupDigitize->addAction (mw.m_actionDigitizeSegment);
+
+  mw.m_actionTwoStageAxis = new QAction (iconAxis, tr ("Two Stage Axis Tool"), &mw);
+  mw.m_actionTwoStageAxis->setCheckable (true);
+  mw.m_actionTwoStageAxis->setStatusTip (tr ("Determine an axis coordinate by two clicks on the image."));
+  connect (mw.m_actionTwoStageAxis, SIGNAL (triggered ()), &mw, SLOT (slotToggleTwoStageAxis ()));
 }
 
 void CreateActions::createEdit (MainWindow &mw)

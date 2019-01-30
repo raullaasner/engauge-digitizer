@@ -137,6 +137,16 @@ void DigitizeStateAxis::handleMouseRelease (CmdMediator *cmdMediator,
 
   } else {
 
+    if (context().mainWindow().two_stage_axis_enabled) {
+        axis_clicked_once = !axis_clicked_once;
+        if (axis_clicked_once) {
+            saved_x_coordinate = posScreen.x();
+            return;
+        } else {
+            posScreen.setX(saved_x_coordinate);
+        }
+    }
+
     createTemporaryPoint (cmdMediator,
                           posScreen);
 
@@ -147,6 +157,7 @@ void DigitizeStateAxis::handleMouseRelease (CmdMediator *cmdMediator,
                                                   context().mainWindow().modelMainWindow(),
                                                   context().mainWindow().transformation(),
                                                   cmdMediator->document().documentAxesPointsRequired());
+
     int rtn = dlg->exec ();
 
     bool isXOnly;

@@ -122,6 +122,7 @@ void CreateToolBars::create (MainWindow &mw)
   mw.m_toolRapidCapture->addWidget(mw.rapidCaptureInc_button);
   mw.m_toolRapidCapture->addWidget(mw.rapidCaptureDec_button);
   mw.m_toolRapidCapture->addWidget(mw.rapidCaptureRate_label);
+  mw.m_toolRapidCapture->addAction (mw.m_actionTwoStageAxis);
   mw.addToolBar(mw.m_toolRapidCapture);
 
   // Coordinate system toolbar

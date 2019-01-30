@@ -2198,6 +2198,9 @@ void MainWindow::slotEditPasteAsNew ()
   LOG4CPP_INFO_S ((*mainCat)) << "MainWindow::slotEditPasteAsNew";
 
   filePaste (IMPORT_TYPE_SIMPLE);
+  // Reset the two-stage axis feature for new figures
+  two_stage_axis_enabled = false;
+  m_actionTwoStageAxis->setChecked(false);
 }
 
 void MainWindow::slotEditPasteAsNewAdvanced ()
@@ -3808,4 +3811,9 @@ void MainWindow::slotRapidCaptureDec()
             RAPID_CAPTURE_LEVEL_TO_DBL[--m_rapid_capture_level-1];
         rapidCaptureRate_label->setText(QString::number(m_rapid_capture_level));
     }
+}
+
+void MainWindow::slotToggleTwoStageAxis ()
+{
+    two_stage_axis_enabled = !two_stage_axis_enabled;
 }

@@ -268,6 +268,11 @@ public:
 
   double getMinDistanceForRapidCapture() const;
 
+  // Whether the axis points should be determined in two stages. If
+  // so, the first click on the screen sets the x-coordinate and the
+  // second click the y-coordinate of the axis point.
+  bool two_stage_axis_enabled {false};
+
 private slots:
   void slotBtnPrintAll();
   void slotBtnShowAllPressed();
@@ -359,6 +364,7 @@ private slots:
   void slotViewZoomOutFromWheelEvent ();
   void slotRapidCaptureInc ();
   void slotRapidCaptureDec ();
+  void slotToggleTwoStageAxis ();
 
 signals:
   /// Send zoom selection, picked from menu or keystroke, to StatusBar.
@@ -609,7 +615,9 @@ private:
   QLabel *rapidCaptureRate_label;
   QToolBar *m_toolRapidCapture;
 
-#if !defined(OSX_DEBUG) && !defined(OSX_RELEASE)  
+  QAction *m_actionTwoStageAxis;
+
+#if !defined(OSX_DEBUG) && !defined(OSX_RELEASE)
   HelpWindow *m_helpWindow;
 #endif
   TutorialDlg *m_tutorialDlg;

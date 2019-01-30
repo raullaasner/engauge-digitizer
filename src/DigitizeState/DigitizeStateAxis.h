@@ -50,6 +50,14 @@ private:
 
   void createTemporaryPoint (CmdMediator *cmdMediator,
                              const QPointF &posScreen);
+
+  // During two-stage axis determination, remember if the screen has
+  // been clicked already. The axis point is generated after the
+  // second click.
+  bool axis_clicked_once = false;
+  // Save the x-coodinate after the first click during two-stage axis
+  // determination.
+  double saved_x_coordinate {0};
 };
 
 #endif // DIGITIZE_STATE_AXIS_H
